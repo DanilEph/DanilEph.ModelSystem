@@ -49,14 +49,20 @@ function calculate() {
         }
     }
 
-    // Цикл, который уменьшает дробь до определенного количесва знаков после запятой
-    // for (let i = 1; i <= 10; i++) {
-    //     for (let j = 1; j <= 7; j++) {
-    //         let x = document.getElementById(i.toString() + j.toString()).innerHTML;
-    //         x = parseFloat(x).toFixed(5);
-    //         document.getElementById(i.toString() + j.toString()).innerHTML = x;
-    //     }
-    // }
+    //Цикл, который уменьшает дробь до определенного количесва знаков после запятой
+    for (let i = 1; i <= 10; i++) {
+        for (let j = 1; j <= 7; j++) {
+            let x = document.getElementById(i.toString() + j.toString()).innerHTML;
+            x = parseFloat(x).toExponential(6);
+
+            // Обработка исключения: деления на ноль
+            if (isNaN(x)) {
+                x = "Деление на ноль";
+            }
+
+            document.getElementById(i.toString() + j.toString()).innerHTML = x;
+        }
+    }
 
     document.getElementById("pros-n").innerHTML = nValue;
 }

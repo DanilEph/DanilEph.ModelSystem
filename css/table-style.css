@@ -13,6 +13,8 @@ td {
   border-width: 0 1px 1px 0;
   border-color: white;
   min-width: calc(520px / 8);
+  background: #dce1e3;
+  padding: 3px 5px;
 }
 #first-row td,
 th:first-child,
@@ -32,9 +34,7 @@ td:first-child {
   border-top-right-radius: 10px;
   border-right: none;
 }
-td {
-  background: #dce1e3;
-}
+
 tr:last-child td:first-child {
   border-radius: 0 0 0 10px;
 }
