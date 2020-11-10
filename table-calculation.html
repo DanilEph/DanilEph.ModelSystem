@@ -130,9 +130,15 @@
             <p>Введите количество каналов: </p>
             <label for="value-n">n = </label>
             <input type="number" name="value-n" id="value-n">
-            <div class="wrapper-button"><input type="button" name="button-calc" id="button-calc" value="Рассчитать" onclick="calculate()" class="standart-button"></div>
-            
+            <div class="wrapper-button"><input type="button" name="button-calc" id="button-calc" value="Рассчитать" onclick="calculate()" class="standart-button"></div>            
         </form>
+
+        <!-- График -->
+        <div style="position:relative;width:50%">
+            <div id="line_top_x"></div>
+        </div>
+        <div id="place-chart"></div>
+
         <hr>
         <div class="footer">
             <div class="button"><a href="index.html">&lt&lt назад</a></div>
@@ -140,5 +146,7 @@
 
     </div>
     <script src="main.js"></script>
+    <script src="chart.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </body>
 </html>

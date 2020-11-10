@@ -9,9 +9,9 @@ body {
 .wrapper {
   max-width: 1200px;
   background-color: rgb(89, 92, 85, 0.8);
-  padding: 10px;
+  padding: 30px;
   margin: 0 auto;
-  min-width: 520px;
+  min-width: 920px;
   border: 30px none #3b30a4;
   border-radius: 2px 2px 2px 2px;
   box-shadow: 3px 6px 50px 14px rgba(0, 0, 0, 0.67);
