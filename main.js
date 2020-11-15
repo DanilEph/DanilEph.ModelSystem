@@ -58,8 +58,19 @@ function calculate() {
 
             // Обработка исключения: деления на ноль
             if (isNaN(x)) {
-                x = "Деление на ноль";
+                if (i == 1 || nValue == '0') {
+                    x = 'деление на ноль';
+                    
+                } else {
+                    let a = document.getElementById((i - 1).toString() + j.toString()).innerHTML;
+                    a = parseFloat(a);
+                    let b = document.getElementById((i + 1).toString() + j.toString()).innerHTML;
+                    b = parseFloat(b);
+                    x = (parseFloat(a) + parseFloat(b))/2;
+                    x = x.toExponential(6);  
+                }                              
             }
+            console.log(x);
             document.getElementById(i.toString() + j.toString()).innerHTML = x;
         }
     }
