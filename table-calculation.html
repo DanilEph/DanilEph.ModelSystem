@@ -7,12 +7,24 @@
     <link rel="stylesheet" href="css/table-style.css">
     <link rel="stylesheet" href="css/form-style.css">
     <link rel="icon" href="img/icon.png">
-    <title>Расчет всей таблицы</title>
+    <title> Расчет вероятности нахождения системы в определенном состоянии</title>
 </head>
 <body>
     <div class="wrapper">
-        <h1>Таблица с расчетами</h1>
-        <p>Зависимость вероятности нулевого состояния от суммарной поступающей нагрузки при фиксированном объеме накопителя и заданном числе каналов (n= <span id="pros-n"></span>)</p>
+        <h1>Системы массового обслуживания с ограниченным накопителем</h1>
+        <p>Граф состояний исследуемой системы имеет вид, показанный на рисунке 1. Состояния системы нумеруются по числу заявок, находящихся в данный момент в системе на обслуживании, что будет совпадать с числом занятых каналов:</p>
+        <ul>
+            <li>S<sub>0</sub> - в системе нет заявок и все каналы свободны;</li>
+            <li>S<sub>1</sub> - в системе на обслуживании находится одна заявка (один канал занят, остальные n-1 каналов свободны); </li>
+            <li>S<sub>2</sub> - в системе находятся две заявки (два канала заняты, остальные n-2 каналов свободны);</li>
+            <li>S<sub>n</sub> - в системе находится n заявок (все n каналов заняты);</li>
+            <li>S<sub>n+1</sub> - в системе находится n заявок на обслуживании и 1 заявка в очереди;</li>
+            <li>S<sub>n+2</sub> - в системе находится n заявок на обслуживании и 2 заявки в очереди;</li>
+            <li>S<sub>n+m</sub> - в системе находится n заявок на обслуживании и m заявок в очереди.</li>                
+        </ul>
+        <img src="img/Scheme.png" alt="Многоканальная система с очередью" style="width: 800px; display: block; margin: 0 auto;">
+        <p class="figure">Рисунок 1 – Многоканальная система с очередью</p>
+        <p>Зависимость вероятности нулевого состояния от суммарной поступающей нагрузки при фиксированном объеме накопителя и заданном числе каналов (n= <span class="pros-n"></span>):</p>
         <table class="main-table">
             <tr id="first-row">
                 <td>p \ m</td>
@@ -125,6 +137,133 @@
                 <td id="107"></td>
             </tr>
         </table>
+        
+        <!-- График -->
+        <div style="position:relative;width:50%; margin: 40px 0 60px 0;">
+            <div id="line_top_zero"></div>
+        </div>
+        <div id="place-chart-zero"></div>
+
+        <p>Зависимость вероятности отказа от суммарной поступающей нагрузки при фиксированном объеме накопителя и заданном числе каналов (n= <span class="pros-n"></span>):</p>
+        <table class="main-table" id="table-refuse">
+            <tr id="first-row">
+                <td>p \ m</td>
+                <td>1</td>
+                <td>5</td>
+                <td>10</td>
+                <td>20</td>
+                <td>30</td>
+                <td>40</td>
+                <td>50</td>                
+            </tr>
+            <tr>
+                <td>1</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <!-- График -->
+        <div style="position:relative;width:50%; margin: 40px 0 60px 0;">
+            <div id="line_top_refuse"></div>
+        </div>
+        <div id="place-chart-refuse"></div>
+
         <br>
         <form action="" class="form-for-table">
             <p>Введите количество каналов: </p>
@@ -132,12 +271,6 @@
             <input type="number" name="value-n" id="value-n">
             <div class="wrapper-button"><input type="button" name="button-calc" id="button-calc" value="Рассчитать" onclick="calculate()" class="standart-button"></div>            
         </form>
-
-        <!-- График -->
-        <div style="position:relative;width:50%">
-            <div id="line_top_x"></div>
-        </div>
-        <div id="place-chart"></div>
 
         <hr>
         <div class="footer">

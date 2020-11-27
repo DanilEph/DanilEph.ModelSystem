@@ -18,6 +18,8 @@ body {
 }
 h1 {
   text-align: center;
+  margin-bottom: 30px;
+  text-transform: uppercase;
 }
 a {
   text-decoration: none;
@@ -25,4 +27,8 @@ a {
 }
 hr {
   margin: 50px 0 10px 0;
+}
+.figure {
+  text-align: center;
+  margin-bottom: 30px;
 }
