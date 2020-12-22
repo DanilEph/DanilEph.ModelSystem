@@ -13,7 +13,7 @@ function factorial(n) { // Функция, вычисляющая фактари
     return fact;
 }
 
-function probZiroState(n, p, m) {
+function probZiroState(n, p, m) { // Функция расчета вероятности нулевого состояния
     // n - Количество каналов
     // p - Суммарная нагрузка
     // m - Объем накопителя
@@ -36,15 +36,26 @@ function probZiroState(n, p, m) {
     return(P_0);
 }
 
-function probRefuse(n, p, m) {
+function probRefuse(n, p, m) { // Функция расчета вероятности отказа
     let x = Math.pow(p, (n + m))/(Math.pow(n, m) * factorial(n));
     return x * probZiroState(n, p, m);
+}
+
+function probAverage(n, p, m) { // Функция расчета вероятности нахождения в очереди среднего значения заявок
+    return Math.pow(p, (n + 1))/(n * factorial(n)) * probZiroState(n, p, m) * m * Math.pow(p, (m - 1))/Math.pow(n, (m - 1));
 }
 
 var mRow = [1, 5, 10, 20, 30, 40, 50];
 var pRow = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 function calculate() {
+
+
+    /////////////////////////////////////////////////////////////
+    /////ТАБЛИЦА ВЕРОЯТНОСТЕЙ НАХОЖДЕНИЯ В НУЛЕВОМ СОСТОЯНИИ/////
+    /////////////////////////////////////////////////////////////
+
+
     let nValue = parseInt(document.getElementById("value-n").value, 0); 
 
     for (let i = 1; i <= 10; i++) {
@@ -149,11 +160,17 @@ function calculate() {
     }
     // КОНЕЦ РЕАЛИЗАЦИИ ГРАФИКА
 
-    let table = document.querySelector('#table-refuse');
+
+    //////////////////////////////////////
+    /////ТАБЛИЦА ВЕРОЯТНОСТЕЙ ОТКАЗОВ/////
+    //////////////////////////////////////
+
+
+    let tableRefuse = document.querySelector('#table-refuse');
 
     for (let i = 1; i <= 10; i++) {
         for (let j = 1; j <= 7; j++) {
-            let cell = table.rows[i].cells[j];
+            let cell = tableRefuse.rows[i].cells[j];
             cell.innerHTML = probRefuse(nValue, pRow[i - 1], mRow[j - 1]);            
         }
     }
@@ -163,7 +180,7 @@ function calculate() {
     //и оформляет все значения в двумерный массив
     for (let i = 1; i <= 10; i++) {
         for (let j = 1; j <= 7; j++) {
-            let x = table.rows[i].cells[j].innerHTML;
+            let x = tableRefuse.rows[i].cells[j].innerHTML;
             x = parseFloat(x).toExponential(6);
 
             // Обработка исключения: деления на ноль
@@ -172,15 +189,15 @@ function calculate() {
                     x = 'деление на ноль';
                     
                 } else {
-                    let a = table.rows[i - 1].cells[j].innerHTML;
+                    let a = tableRefuse.rows[i - 1].cells[j].innerHTML;
                     a = parseFloat(a);
-                    let b = table.rows[i + 1].cells[j].innerHTML;
+                    let b = tableRefuse.rows[i + 1].cells[j].innerHTML;
                     b = parseFloat(b);
                     x = (parseFloat(a) + parseFloat(b))/2;
                     x = x.toExponential(6);  
                 }                              
             }
-            table.rows[i].cells[j].innerHTML = x;
+            tableRefuse.rows[i].cells[j].innerHTML = x;
         }
     }
 
@@ -199,19 +216,19 @@ function calculate() {
         data.addColumn('number', 'm = 40');
         data.addColumn('number', 'm = 50');
 
-        let table = document.querySelector('#table-refuse');
+        let tableRefuse = document.querySelector('#table-refuse');
 
         data.addRows([
-            [pRow[0], parseFloat(table.rows[1].cells[1].innerHTML), parseFloat(table.rows[1].cells[2].innerHTML), parseFloat(table.rows[1].cells[3].innerHTML), parseFloat(table.rows[1].cells[4].innerHTML), parseFloat(table.rows[1].cells[5].innerHTML), parseFloat(table.rows[1].cells[6].innerHTML), parseFloat(table.rows[1].cells[7].innerHTML)],
-            [pRow[1], parseFloat(table.rows[2].cells[1].innerHTML), parseFloat(table.rows[2].cells[2].innerHTML), parseFloat(table.rows[2].cells[3].innerHTML), parseFloat(table.rows[2].cells[4].innerHTML), parseFloat(table.rows[2].cells[5].innerHTML), parseFloat(table.rows[2].cells[6].innerHTML), parseFloat(table.rows[2].cells[7].innerHTML)],
-            [pRow[2], parseFloat(table.rows[3].cells[1].innerHTML), parseFloat(table.rows[3].cells[2].innerHTML), parseFloat(table.rows[3].cells[3].innerHTML), parseFloat(table.rows[3].cells[4].innerHTML), parseFloat(table.rows[3].cells[5].innerHTML), parseFloat(table.rows[3].cells[6].innerHTML), parseFloat(table.rows[3].cells[7].innerHTML)],
-            [pRow[3], parseFloat(table.rows[4].cells[1].innerHTML), parseFloat(table.rows[4].cells[2].innerHTML), parseFloat(table.rows[4].cells[3].innerHTML), parseFloat(table.rows[4].cells[4].innerHTML), parseFloat(table.rows[4].cells[5].innerHTML), parseFloat(table.rows[4].cells[6].innerHTML), parseFloat(table.rows[4].cells[7].innerHTML)],
-            [pRow[4], parseFloat(table.rows[5].cells[1].innerHTML), parseFloat(table.rows[5].cells[2].innerHTML), parseFloat(table.rows[5].cells[3].innerHTML), parseFloat(table.rows[5].cells[4].innerHTML), parseFloat(table.rows[5].cells[5].innerHTML), parseFloat(table.rows[5].cells[6].innerHTML), parseFloat(table.rows[5].cells[7].innerHTML)],
-            [pRow[5], parseFloat(table.rows[6].cells[1].innerHTML), parseFloat(table.rows[6].cells[2].innerHTML), parseFloat(table.rows[6].cells[3].innerHTML), parseFloat(table.rows[6].cells[4].innerHTML), parseFloat(table.rows[6].cells[5].innerHTML), parseFloat(table.rows[6].cells[6].innerHTML), parseFloat(table.rows[6].cells[7].innerHTML)],
-            [pRow[6], parseFloat(table.rows[7].cells[1].innerHTML), parseFloat(table.rows[7].cells[2].innerHTML), parseFloat(table.rows[7].cells[3].innerHTML), parseFloat(table.rows[7].cells[4].innerHTML), parseFloat(table.rows[7].cells[5].innerHTML), parseFloat(table.rows[7].cells[6].innerHTML), parseFloat(table.rows[7].cells[7].innerHTML)],
-            [pRow[7], parseFloat(table.rows[8].cells[1].innerHTML), parseFloat(table.rows[8].cells[2].innerHTML), parseFloat(table.rows[8].cells[3].innerHTML), parseFloat(table.rows[8].cells[4].innerHTML), parseFloat(table.rows[8].cells[5].innerHTML), parseFloat(table.rows[8].cells[6].innerHTML), parseFloat(table.rows[8].cells[7].innerHTML)],
-            [pRow[8], parseFloat(table.rows[9].cells[1].innerHTML), parseFloat(table.rows[9].cells[2].innerHTML), parseFloat(table.rows[9].cells[3].innerHTML), parseFloat(table.rows[9].cells[4].innerHTML), parseFloat(table.rows[9].cells[5].innerHTML), parseFloat(table.rows[9].cells[6].innerHTML), parseFloat(table.rows[9].cells[7].innerHTML)],
-            [pRow[9], parseFloat(table.rows[10].cells[1].innerHTML), parseFloat(table.rows[10].cells[2].innerHTML), parseFloat(table.rows[10].cells[3].innerHTML), parseFloat(table.rows[10].cells[4].innerHTML), parseFloat(table.rows[10].cells[5].innerHTML), parseFloat(table.rows[10].cells[6].innerHTML), parseFloat(table.rows[10].cells[7].innerHTML)],
+            [pRow[0], parseFloat(tableRefuse.rows[1].cells[1].innerHTML), parseFloat(tableRefuse.rows[1].cells[2].innerHTML), parseFloat(tableRefuse.rows[1].cells[3].innerHTML), parseFloat(tableRefuse.rows[1].cells[4].innerHTML), parseFloat(tableRefuse.rows[1].cells[5].innerHTML), parseFloat(tableRefuse.rows[1].cells[6].innerHTML), parseFloat(tableRefuse.rows[1].cells[7].innerHTML)],
+            [pRow[1], parseFloat(tableRefuse.rows[2].cells[1].innerHTML), parseFloat(tableRefuse.rows[2].cells[2].innerHTML), parseFloat(tableRefuse.rows[2].cells[3].innerHTML), parseFloat(tableRefuse.rows[2].cells[4].innerHTML), parseFloat(tableRefuse.rows[2].cells[5].innerHTML), parseFloat(tableRefuse.rows[2].cells[6].innerHTML), parseFloat(tableRefuse.rows[2].cells[7].innerHTML)],
+            [pRow[2], parseFloat(tableRefuse.rows[3].cells[1].innerHTML), parseFloat(tableRefuse.rows[3].cells[2].innerHTML), parseFloat(tableRefuse.rows[3].cells[3].innerHTML), parseFloat(tableRefuse.rows[3].cells[4].innerHTML), parseFloat(tableRefuse.rows[3].cells[5].innerHTML), parseFloat(tableRefuse.rows[3].cells[6].innerHTML), parseFloat(tableRefuse.rows[3].cells[7].innerHTML)],
+            [pRow[3], parseFloat(tableRefuse.rows[4].cells[1].innerHTML), parseFloat(tableRefuse.rows[4].cells[2].innerHTML), parseFloat(tableRefuse.rows[4].cells[3].innerHTML), parseFloat(tableRefuse.rows[4].cells[4].innerHTML), parseFloat(tableRefuse.rows[4].cells[5].innerHTML), parseFloat(tableRefuse.rows[4].cells[6].innerHTML), parseFloat(tableRefuse.rows[4].cells[7].innerHTML)],
+            [pRow[4], parseFloat(tableRefuse.rows[5].cells[1].innerHTML), parseFloat(tableRefuse.rows[5].cells[2].innerHTML), parseFloat(tableRefuse.rows[5].cells[3].innerHTML), parseFloat(tableRefuse.rows[5].cells[4].innerHTML), parseFloat(tableRefuse.rows[5].cells[5].innerHTML), parseFloat(tableRefuse.rows[5].cells[6].innerHTML), parseFloat(tableRefuse.rows[5].cells[7].innerHTML)],
+            [pRow[5], parseFloat(tableRefuse.rows[6].cells[1].innerHTML), parseFloat(tableRefuse.rows[6].cells[2].innerHTML), parseFloat(tableRefuse.rows[6].cells[3].innerHTML), parseFloat(tableRefuse.rows[6].cells[4].innerHTML), parseFloat(tableRefuse.rows[6].cells[5].innerHTML), parseFloat(tableRefuse.rows[6].cells[6].innerHTML), parseFloat(tableRefuse.rows[6].cells[7].innerHTML)],
+            [pRow[6], parseFloat(tableRefuse.rows[7].cells[1].innerHTML), parseFloat(tableRefuse.rows[7].cells[2].innerHTML), parseFloat(tableRefuse.rows[7].cells[3].innerHTML), parseFloat(tableRefuse.rows[7].cells[4].innerHTML), parseFloat(tableRefuse.rows[7].cells[5].innerHTML), parseFloat(tableRefuse.rows[7].cells[6].innerHTML), parseFloat(tableRefuse.rows[7].cells[7].innerHTML)],
+            [pRow[7], parseFloat(tableRefuse.rows[8].cells[1].innerHTML), parseFloat(tableRefuse.rows[8].cells[2].innerHTML), parseFloat(tableRefuse.rows[8].cells[3].innerHTML), parseFloat(tableRefuse.rows[8].cells[4].innerHTML), parseFloat(tableRefuse.rows[8].cells[5].innerHTML), parseFloat(tableRefuse.rows[8].cells[6].innerHTML), parseFloat(tableRefuse.rows[8].cells[7].innerHTML)],
+            [pRow[8], parseFloat(tableRefuse.rows[9].cells[1].innerHTML), parseFloat(tableRefuse.rows[9].cells[2].innerHTML), parseFloat(tableRefuse.rows[9].cells[3].innerHTML), parseFloat(tableRefuse.rows[9].cells[4].innerHTML), parseFloat(tableRefuse.rows[9].cells[5].innerHTML), parseFloat(tableRefuse.rows[9].cells[6].innerHTML), parseFloat(tableRefuse.rows[9].cells[7].innerHTML)],
+            [pRow[9], parseFloat(tableRefuse.rows[10].cells[1].innerHTML), parseFloat(tableRefuse.rows[10].cells[2].innerHTML), parseFloat(tableRefuse.rows[10].cells[3].innerHTML), parseFloat(tableRefuse.rows[10].cells[4].innerHTML), parseFloat(tableRefuse.rows[10].cells[5].innerHTML), parseFloat(tableRefuse.rows[10].cells[6].innerHTML), parseFloat(tableRefuse.rows[10].cells[7].innerHTML)],
             ]);
 
         var options = {
@@ -245,6 +262,113 @@ function calculate() {
         document.getElementById('place-chart-refuse').style.height = '500px';
 
         var chart = new google.charts.Line(document.getElementById('line_top_refuse'));
+
+        chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+
+
+
+    //////////////////////////////////////////////////////////////
+    /////ТАБЛИЦА ВЕРОЯТНОСТЕЙ СРЕДНЕГО ЧИСЛА ЗАЯВОК В ОЧЕРЕДИ/////
+    //////////////////////////////////////////////////////////////
+
+
+    let tableAverage = document.querySelector('#table-average');
+
+    for (let i = 1; i <= 10; i++) {
+        for (let j = 1; j <= 7; j++) {
+            let cell = tableAverage.rows[i].cells[j];
+            cell.innerHTML = probAverage(nValue, pRow[i - 1], mRow[j - 1]);            
+        }
+    }
+
+    
+    //Цикл, который уменьшает дробь до определенного количесва знаков после запятой
+    //и оформляет все значения в двумерный массив
+    for (let i = 1; i <= 10; i++) {
+        for (let j = 1; j <= 7; j++) {
+            let x = tableAverage.rows[i].cells[j].innerHTML;
+            x = parseFloat(x).toExponential(6);
+
+            // Обработка исключения: деления на ноль
+            if (isNaN(x)) {
+                if (i == 1 || nValue == '0' || nValue == '10') {
+                    x = 'деление на ноль';
+                    
+                } else {
+                    let a = tableAverage.rows[i - 1].cells[j].innerHTML;
+                    a = parseFloat(a);
+                    let b = tableAverage.rows[i + 1].cells[j].innerHTML;
+                    b = parseFloat(b);
+                    x = (parseFloat(a) + parseFloat(b))/2;
+                    x = x.toExponential(6);  
+                }                              
+            }
+            tableAverage.rows[i].cells[j].innerHTML = x;
+        }
+    }
+
+    // Реализация графика для таблицы вероятностей отказов
+    google.charts.setOnLoadCallback(drowChartAverage);
+
+    function drowChartAverage() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('number', 'p');
+        data.addColumn('number', 'm = 1');
+        data.addColumn('number', 'm = 5');
+        data.addColumn('number', 'm = 10');
+        data.addColumn('number', 'm = 20');
+        data.addColumn('number', 'm = 30');
+        data.addColumn('number', 'm = 40');
+        data.addColumn('number', 'm = 50');
+
+        let tableAverage = document.querySelector('#table-average');
+
+        data.addRows([
+            [pRow[0], parseFloat(tableAverage.rows[1].cells[1].innerHTML), parseFloat(tableAverage.rows[1].cells[2].innerHTML), parseFloat(tableAverage.rows[1].cells[3].innerHTML), parseFloat(tableAverage.rows[1].cells[4].innerHTML), parseFloat(tableAverage.rows[1].cells[5].innerHTML), parseFloat(tableAverage.rows[1].cells[6].innerHTML), parseFloat(tableAverage.rows[1].cells[7].innerHTML)],
+            [pRow[1], parseFloat(tableAverage.rows[2].cells[1].innerHTML), parseFloat(tableAverage.rows[2].cells[2].innerHTML), parseFloat(tableAverage.rows[2].cells[3].innerHTML), parseFloat(tableAverage.rows[2].cells[4].innerHTML), parseFloat(tableAverage.rows[2].cells[5].innerHTML), parseFloat(tableAverage.rows[2].cells[6].innerHTML), parseFloat(tableAverage.rows[2].cells[7].innerHTML)],
+            [pRow[2], parseFloat(tableAverage.rows[3].cells[1].innerHTML), parseFloat(tableAverage.rows[3].cells[2].innerHTML), parseFloat(tableAverage.rows[3].cells[3].innerHTML), parseFloat(tableAverage.rows[3].cells[4].innerHTML), parseFloat(tableAverage.rows[3].cells[5].innerHTML), parseFloat(tableAverage.rows[3].cells[6].innerHTML), parseFloat(tableAverage.rows[3].cells[7].innerHTML)],
+            [pRow[3], parseFloat(tableAverage.rows[4].cells[1].innerHTML), parseFloat(tableAverage.rows[4].cells[2].innerHTML), parseFloat(tableAverage.rows[4].cells[3].innerHTML), parseFloat(tableAverage.rows[4].cells[4].innerHTML), parseFloat(tableAverage.rows[4].cells[5].innerHTML), parseFloat(tableAverage.rows[4].cells[6].innerHTML), parseFloat(tableAverage.rows[4].cells[7].innerHTML)],
+            [pRow[4], parseFloat(tableAverage.rows[5].cells[1].innerHTML), parseFloat(tableAverage.rows[5].cells[2].innerHTML), parseFloat(tableAverage.rows[5].cells[3].innerHTML), parseFloat(tableAverage.rows[5].cells[4].innerHTML), parseFloat(tableAverage.rows[5].cells[5].innerHTML), parseFloat(tableAverage.rows[5].cells[6].innerHTML), parseFloat(tableAverage.rows[5].cells[7].innerHTML)],
+            [pRow[5], parseFloat(tableAverage.rows[6].cells[1].innerHTML), parseFloat(tableAverage.rows[6].cells[2].innerHTML), parseFloat(tableAverage.rows[6].cells[3].innerHTML), parseFloat(tableAverage.rows[6].cells[4].innerHTML), parseFloat(tableAverage.rows[6].cells[5].innerHTML), parseFloat(tableAverage.rows[6].cells[6].innerHTML), parseFloat(tableAverage.rows[6].cells[7].innerHTML)],
+            [pRow[6], parseFloat(tableAverage.rows[7].cells[1].innerHTML), parseFloat(tableAverage.rows[7].cells[2].innerHTML), parseFloat(tableAverage.rows[7].cells[3].innerHTML), parseFloat(tableAverage.rows[7].cells[4].innerHTML), parseFloat(tableAverage.rows[7].cells[5].innerHTML), parseFloat(tableAverage.rows[7].cells[6].innerHTML), parseFloat(tableAverage.rows[7].cells[7].innerHTML)],
+            [pRow[7], parseFloat(tableAverage.rows[8].cells[1].innerHTML), parseFloat(tableAverage.rows[8].cells[2].innerHTML), parseFloat(tableAverage.rows[8].cells[3].innerHTML), parseFloat(tableAverage.rows[8].cells[4].innerHTML), parseFloat(tableAverage.rows[8].cells[5].innerHTML), parseFloat(tableAverage.rows[8].cells[6].innerHTML), parseFloat(tableAverage.rows[8].cells[7].innerHTML)],
+            [pRow[8], parseFloat(tableAverage.rows[9].cells[1].innerHTML), parseFloat(tableAverage.rows[9].cells[2].innerHTML), parseFloat(tableAverage.rows[9].cells[3].innerHTML), parseFloat(tableAverage.rows[9].cells[4].innerHTML), parseFloat(tableAverage.rows[9].cells[5].innerHTML), parseFloat(tableAverage.rows[9].cells[6].innerHTML), parseFloat(tableAverage.rows[9].cells[7].innerHTML)],
+            [pRow[9], parseFloat(tableAverage.rows[10].cells[1].innerHTML), parseFloat(tableAverage.rows[10].cells[2].innerHTML), parseFloat(tableAverage.rows[10].cells[3].innerHTML), parseFloat(tableAverage.rows[10].cells[4].innerHTML), parseFloat(tableAverage.rows[10].cells[5].innerHTML), parseFloat(tableAverage.rows[10].cells[6].innerHTML), parseFloat(tableAverage.rows[10].cells[7].innerHTML)],
+            ]);
+
+        var options = {
+            chart: {
+            title: 'Граффик зависимости L_оч = f(p)',
+            subtitle: ''
+            },
+            width: 900,
+            height: 500,
+            axes: {
+            x: {
+                0: {side: 'botton'}
+            }
+            },
+            backgroundColor: '#dce1e3',
+            chartArea: {
+                backgroundColor: {
+                    fill: '#edf6fa',
+                    opacity: 300
+                }
+            }                      
+        };
+
+
+        //позиционирование графика
+        document.getElementById("line_top_average").style.position = 'absolute';
+        document.getElementById("line_top_average").style.top = '-10px';
+        document.getElementById("line_top_average").style.right = '50px';
+        document.getElementById("line_top_average").style.width = '400px';
+        document.getElementById("line_top_average").style.height = '300px';
+        document.getElementById('place-chart-average').style.height = '500px';
+
+        var chart = new google.charts.Line(document.getElementById('line_top_average'));
 
         chart.draw(data, google.charts.Line.convertOptions(options));
     }
